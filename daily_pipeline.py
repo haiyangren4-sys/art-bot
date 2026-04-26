@@ -4,16 +4,6 @@ from readability import Document
 from datetime import datetime
 from config import TELEGRAM_TOKEN, CHAT_ID, SOURCES
 
-# ===== 每天只执行一次（根本稳定）=====
-RUN_FLAG = f"ran_{today}.txt"
-today = datetime.utcnow().strftime("%Y-%m-%d")
-
-if os.path.exists(RUN_FLAG):
-    with open(RUN_FLAG, "r") as f:
-        last = f.read().strip()
-    if last == today:
-        print("今天已经执行过，跳过")
-        exit()
 
 # ===== 主任务 =====
 def run_job():
@@ -111,7 +101,7 @@ def run_job():
         url = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
 
         headers = {
-            "Authorization": "Bearer d4b186dc39ff428895a6c9d71a68359b.jXC9J08KW2DJb8R9",
+            "Authorization": "Bearer 你的token保持不变",
             "Content-Type": "application/json"
         }
 
@@ -185,19 +175,8 @@ def run_job():
     # ===== 推送 =====
     send(md)
 
-  # ===== 标记今天已执行（写入仓库）=====
-# ===== 标记今天已执行（写入仓库）=====
-with open(RUN_FLAG, "w") as f:
-    f.write("done")
 
-os.system(f"git config --global user.email 'bot@example.com'")
-os.system(f"git config --global user.name 'bot'")
-os.system("git add .")
-os.system(f"git commit -m 'mark {today}'")
-os.system("git push")
-
-
-# ===== 云端执行入口 =====
+# ===== 执行入口 =====
 if __name__ == "__main__":
     print("开始执行任务...")
     run_job()
