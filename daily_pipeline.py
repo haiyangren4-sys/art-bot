@@ -5,7 +5,7 @@ from datetime import datetime
 from config import TELEGRAM_TOKEN, CHAT_ID, SOURCES
 
 # ===== 每天只执行一次（根本稳定）=====
-RUN_FLAG = "ran_today.txt"
+RUN_FLAG = f"ran_{today}.txt"
 today = datetime.utcnow().strftime("%Y-%m-%d")
 
 if os.path.exists(RUN_FLAG):
@@ -185,9 +185,16 @@ def run_job():
     # ===== 推送 =====
     send(md)
 
-    # ===== 标记今天已执行 =====
-    with open(RUN_FLAG, "w") as f:
-        f.write(today)
+  # ===== 标记今天已执行（写入仓库）=====
+# ===== 标记今天已执行（写入仓库）=====
+with open(RUN_FLAG, "w") as f:
+    f.write("done")
+
+os.system(f"git config --global user.email 'bot@example.com'")
+os.system(f"git config --global user.name 'bot'")
+os.system("git add .")
+os.system(f"git commit -m 'mark {today}'")
+os.system("git push")
 
 
 # ===== 云端执行入口 =====
