@@ -2,6 +2,8 @@ name: Art Bot
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'   # 北京时间 14:00（UTC 06:00）
 
 jobs:
   run:
