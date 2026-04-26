@@ -1,8 +1,17 @@
 import requests, os
 from bs4 import BeautifulSoup
 from readability import Document
-from datetime import datetime
+from datetime import datetime, timedelta
 from config import TELEGRAM_TOKEN, CHAT_ID, SOURCES
+
+# ===== 时间控制（北京时间 14:30 执行）=====
+# GitHub 使用 UTC，需要 +8 小时转换为北京时间
+now = datetime.utcnow() + timedelta(hours=8)
+now_str = now.strftime("%H:%M")
+
+if now_str != "14:30":
+    print(f"当前时间 {now_str}，未到执行时间，跳过")
+    exit()
 
 # ===== 主任务（把你原来的全部包进来）=====
 def run_job():
