@@ -3,7 +3,7 @@ name: Art Bot
 on:
   workflow_dispatch:
   schedule:
-    - cron: '10 6 * * *'   # 北京时间 14:10
+    - cron: '*/5 * * * *'   # 每5分钟运行一次（稳定方案）
 
 jobs:
   run:
