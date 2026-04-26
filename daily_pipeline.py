@@ -4,9 +4,6 @@ from readability import Document
 from datetime import datetime
 from config import TELEGRAM_TOKEN, CHAT_ID, SOURCES
 
-import time
-import schedule
-
 # ===== 主任务（把你原来的全部包进来）=====
 def run_job():
 
@@ -188,3 +185,9 @@ def run_job():
 
     # ===== 推送 =====
     send(md)
+
+
+# ===== 关键：云端执行入口 =====
+if __name__ == "__main__":
+    print("开始执行任务...")
+    run_job()
