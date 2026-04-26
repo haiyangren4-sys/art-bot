@@ -4,15 +4,6 @@ from readability import Document
 from datetime import datetime, timedelta
 from config import TELEGRAM_TOKEN, CHAT_ID, SOURCES
 
-# ===== 时间控制（北京时间 14:30 ±5分钟执行）=====
-now = datetime.utcnow() + timedelta(hours=8)
-hour = now.hour
-minute = now.minute
-
-if not (hour == 14 and 25 <= minute <= 35):
-    print(f"当前时间 {hour}:{minute}，未到执行时间，跳过")
-    exit()
-
 # ===== 主任务（把你原来的全部包进来）=====
 def run_job():
 
