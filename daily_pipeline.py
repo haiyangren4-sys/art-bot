@@ -188,14 +188,3 @@ def run_job():
 
     # ===== 推送 =====
     send(md)
-
-
-# ===== 定时（每天12:59执行）=====
-schedule.every().day.at("12:59").do(run_job)
-
-print("系统启动，等待每天12:59执行...")
-
-# ===== 常驻运行 =====
-while True:
-    schedule.run_pending()
-    time.sleep(30)
