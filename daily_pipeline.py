@@ -1,16 +1,25 @@
 import requests, os
 from bs4 import BeautifulSoup
 from readability import Document
-from datetime import datetime, timedelta
+from datetime import datetime
 from config import TELEGRAM_TOKEN, CHAT_ID, SOURCES
 
-# ===== 主任务（把你原来的全部包进来）=====
+# ===== 每天只执行一次（根本稳定）=====
+RUN_FLAG = "ran_today.txt"
+today = datetime.utcnow().strftime("%Y-%m-%d")
+
+if os.path.exists(RUN_FLAG):
+    with open(RUN_FLAG, "r") as f:
+        last = f.read().strip()
+    if last == today:
+        print("今天已经执行过，跳过")
+        exit()
+
+# ===== 主任务 =====
 def run_job():
 
-    # ===== 先定义日期（必须最前）=====
-    date = datetime.now().strftime("%Y-%m-%d")
+    date = datetime.utcnow().strftime("%Y-%m-%d")
 
-    # ===== 已处理记录 =====
     SEEN_FILE = f"seen_{date}.txt"
 
     if os.path.exists(SEEN_FILE):
@@ -18,16 +27,6 @@ def run_job():
             seen_links = set(f.read().splitlines())
     else:
         seen_links = set()
-
-    # ===== 判断是否是今天 =====
-    def is_today_link(href):
-        y, m, d = date.split("-")
-        patterns = [
-            f"/{y}/{m}/{d}/",
-            f"-{y}-{m}-{d}-",
-            f"{y}{m}{d}"
-        ]
-        return any(p in href for p in patterns)
 
     # ===== 发送（分段）=====
     def send(msg):
@@ -186,8 +185,12 @@ def run_job():
     # ===== 推送 =====
     send(md)
 
+    # ===== 标记今天已执行 =====
+    with open(RUN_FLAG, "w") as f:
+        f.write(today)
 
-# ===== 关键：云端执行入口 =====
+
+# ===== 云端执行入口 =====
 if __name__ == "__main__":
     print("开始执行任务...")
     run_job()
