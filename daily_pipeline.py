@@ -101,7 +101,7 @@ def run_job():
         url = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
 
         headers = {
-            "Authorization": "Bearer 你的token保持不变",
+            "Authorization": "Bearer d4b186dc39ff428895a6c9d71a68359b.jXC9J08KW2DJb8R9",
             "Content-Type": "application/json"
         }
 
